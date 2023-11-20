@@ -15,6 +15,10 @@ export default {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      price: {
+        allowNull: false,
+        type: DataTypes.DECIMAL(10, 2),
+      }
     })
   }, 
   

@@ -9,14 +9,14 @@ services:
     # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
     user: node
     # Nome do container para facilitar execução
-    container_name: api_typescript
+    container_name: api
     # Mesmo que `docker run -t`
     tty: true
     # Mesmo que `docker run -i`
     stdin_open: true
     # Substitui o comando padrão da imagem do node
     command: npm run dev # inicia a API quando container for iniciado
-    image: api-typescript:8.3
+    image: api:8.3
     # Restarta a imagem caso algo a faça parar
     restart: always
     # Diretório padrão de execução
@@ -34,17 +34,17 @@ services:
     # na notação porta_de_fora:porta_de_dentro
     ports:
       # Expõe a porta padrão da aplicação: altere aqui caso use outra porta
-      - 3001:3001
+      - 3000:3000
     # Configura as variáveis de ambiente dentro do container
     environment:
       DB_USER: root
       DB_PASSWORD: password
       DB_HOST: db
-      DB_NAME: api_typescript
+      DB_NAME: api
       DB_PORT: 3306
       JWT_SECRET: secret
     networks:
-      - api_typescript_net
+      - api_net
 
   # Serviço que irá rodar o banco de dados
   db:
@@ -59,11 +59,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
     networks:
-      - api_typescript_net
+      - api_net
 
 # Lista de redes que os containeres irão utilizar
 networks:
-  # Cria rede com nome `api_typescript_net`
-  api_typescript_net:
+  # Cria rede com nome `api_net`
+  api_net:
     # Define o `driver` como `bridge`, que é o driver padrão do docker
     driver: bridge
