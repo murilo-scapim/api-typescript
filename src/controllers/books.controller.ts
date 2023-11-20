@@ -3,8 +3,12 @@ import booksService from '../services/books.service';
 
 async function create(req: Request, res: Response) {
   const { title, price } = req.body;
-  const book = await booksService.create({ title, price });
-  return res.status(201).json(book);
+  const serviceResponse = await booksService.create({ title, price });
+
+  if (serviceResponse.status !== 'SUCCESSFUL') {
+    return res.status(400).json(serviceResponse.data);
+  }
+  return res.status(201).json(serviceResponse.data);
 }
 
 async function list(_req: Request, res: Response) {
@@ -13,7 +17,7 @@ async function list(_req: Request, res: Response) {
   if (serviceResponse.status !== 'SUCCESSFUL') {
     return res.status(400).json(serviceResponse.data);
   }
-  res.status(200).json(serviceResponse.data);
+  return res.status(200).json(serviceResponse.data);
 }
 
 export default {
